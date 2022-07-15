@@ -37,8 +37,8 @@ public class Ship {
         double ang_rad = Math.toRadians(this.pitch);
         this.accelerationVertical = Math.sin(ang_rad)*1.2;
         this.accelerationHorizontal = Math.cos(ang_rad)*1.2;
-        this.fuelKG = 216;
-        this.shipWeightKG = 165;
+        this.fuelKG = 300;
+        this.shipWeightKG = 81;
         this.weightKG = this.fuelKG+shipWeightKG;
         this.altitude = 30000;
         this.state = State.orientation;
@@ -109,7 +109,12 @@ public class Ship {
         }
 
         horizontalSpeed +=-1*accelerationHorizontal*dt;
+        horizontalSpeed = Math.max(horizontalSpeed, 0.0);
         verticalSpeed +=-1*accelerationVertical*dt;
+//        if (altitude < 800){
+//            verticalSpeed -= 1;
+//        }
+        verticalSpeed = Math.max(verticalSpeed, 1.0);
         altitude -= dt*verticalSpeed;
         if (altitude < 25000) {
             this.state = State.braking;
